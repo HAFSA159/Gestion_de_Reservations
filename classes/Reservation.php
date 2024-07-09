@@ -1,5 +1,5 @@
 <?php
-include '../connection.php';
+include __DIR__ . '/../connection.php';
 
 class Reservation {
     private $db;
@@ -57,6 +57,14 @@ class Reservation {
         }
     }
 
+    public function getAllReservationsWithActivityDetails() {
+        $sql = "SELECT reservations.id, reservations.user_id, reservations.created_at, activities.name as activity_name, users.username as user_name
+            FROM reservations 
+            JOIN activities ON reservations.activity_id = activities.id
+            JOIN users ON reservations.user_id = users.id";
+        $stmt = $this->db->query($sql);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 ?>
 
