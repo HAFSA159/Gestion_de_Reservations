@@ -4,22 +4,29 @@ include 'partials.php';
 include '../connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $username = $_POST['username'];
+    $username = filter_input(INPUT_POST, 'username', FILTER_SANITIZE_STRING);
     $password = $_POST['password'];
 
-    $query = $db->prepare("SELECT id, password FROM users WHERE username = ?");
+    $query = $db->prepare("SELECT id, password, role FROM users WHERE username = ?");
     $query->execute([$username]);
     $user = $query->fetch();
 
     if ($user && password_verify($password, $user['password'])) {
         $_SESSION['user_id'] = $user['id'];
-        header("Location: activities.php");
+        $_SESSION['role'] = $user['role'];
+
+        if ($user['role'] === 'admin') {
+            header("Location: Admin/dashboard.php");
+        } else {
+            header("Location: activities.php");
+        }
         exit();
     } else {
         echo "Invalid username or password.";
     }
 }
 ?>
+
 
 <section class="bg-gray-50 dark:bg-gray-900">
     <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -39,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
                     <button type="submit" name="submit" class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Log in</button>
                     <button class="w-full text-white bg-blue-800 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">
-                        <a href="Home.php">Back to Home</a></button>
+                        <a href="../index.php">Back to Home</a></button>
                     <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                         Don’t have an account yet? <a href="signup.php" class="font-medium text-primary-600 hover:underline dark:text-primary-500">Sign up</a>
                     </p>
