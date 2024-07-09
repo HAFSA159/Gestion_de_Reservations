@@ -1,9 +1,19 @@
 <?php
+session_start();
+
 include '../partials.php';
 include '../../connection.php';
 include '../../classes/Activity.php';
+include '../../classes/Reservation.php';
+
+
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'admin') {
+    header('Location: ../activities.php');
+    exit();
+}
 
 $activity = new Activity($db);
+$reservation = new Reservation($db);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['submit'])) {
@@ -26,8 +36,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit();
     }
 }
-
 $activities = $activity->getAllActivities();
+$reservations = $reservation->getAllReservationsWithActivityDetails();
+
 ?>
 
 <!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
@@ -40,18 +51,23 @@ $activities = $activity->getAllActivities();
                     <a href="#">Fitness</a>
                 </div>
                 <div class="md:hidden">
-                    <button type="button" class="block text-gray-800 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
+                    <button type="button"
+                            class="block text-gray-800 hover:text-gray-700 focus:text-gray-700 focus:outline-none">
                         <svg class="h-6 w-6 fill-current" viewBox="0 0 24 24">
-                            <path class="hidden" d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z"/>
+                            <path class="hidden"
+                                  d="M16.24 14.83a1 1 0 0 1-1.41 1.41L12 13.41l-2.83 2.83a1 1 0 0 1-1.41-1.41L10.59 12 7.76 9.17a1 1 0 0 1 1.41-1.41L12 10.59l2.83-2.83a1 1 0 0 1 1.41 1.41L13.41 12l2.83 2.83z"/>
                             <path d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
                         </svg>
                     </button>
                 </div>
             </div>
             <div class="flex flex-col md:flex-row hidden md:block -mx-2">
-                <a href="../Home.php" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Home</a>
-                <a href="../logout.php" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Logout</a>
-                <a href="#" class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Contact</a>
+                <a href="../../index.php"
+                   class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Home</a>
+                <a href="../logout.php"
+                   class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Logout</a>
+                <a href="#"
+                   class="text-gray-800 rounded hover:bg-gray-900 hover:text-gray-100 hover:font-medium py-2 px-2 md:mx-2">Contact</a>
             </div>
         </div>
     </nav>
@@ -94,9 +110,13 @@ $activities = $activity->getAllActivities();
                                 <td class="py-2 px-4 border-b border-grey-light text-right">
                                     <form action="dashboard.php" method="POST" style="display:inline;">
                                         <input type="hidden" name="delete_id" value="<?php echo $activity['id']; ?>">
-                                        <button type="submit" name="delete"class="inline-block p-3 text-center text-white transition bg-red-500 rounded-full shadow ripple hover:shadow-lg hover:bg-red-600 focus:outline-none">
-                                            <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                        <button type="submit" name="delete"
+                                                class="inline-block p-3 text-center text-white transition bg-red-500 rounded-full shadow ripple hover:shadow-lg hover:bg-red-600 focus:outline-none">
+                                            <svg class="w-5 h-5 text-white" xmlns="http://www.w3.org/2000/svg"
+                                                 viewBox="0 0 20 20" fill="currentColor">
+                                                <path fill-rule="evenodd"
+                                                      d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+                                                      clip-rule="evenodd"/>
                                             </svg>
                                         </button>
                                     </form>
@@ -106,8 +126,9 @@ $activities = $activity->getAllActivities();
                         </tbody>
                     </table>
                     <div class="text-right mt-4">
-                        <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal" class="min-w-auto w-80 h-10 bg-green-600 p-2 rounded-xl hover:bg-green-500 transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold">
-                           New Activity
+                        <button data-modal-target="authentication-modal" data-modal-toggle="authentication-modal"
+                                class="min-w-auto w-80 h-10 bg-green-600 p-2 rounded-xl hover:bg-green-500 transition-colors duration-50 hover:animate-pulse ease-out text-white font-semibold">
+                            New Activity
                         </button>
                     </div>
                 </div>
@@ -119,22 +140,24 @@ $activities = $activity->getAllActivities();
                         <thead>
                         <tr class="text-sm leading-normal">
                             <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light text-left">
-                                Nombre
+                                Activities name
                             </th>
                             <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light text-left">
-                                Fecha
+                                Date
                             </th>
-                            <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light text-right text-left">
-                                Monto
+                            <th class="py-2 px-4 bg-grey-lightest font-bold uppercase text-sm text-grey-light border-b border-grey-light text-left">
+                                User
                             </th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr class="hover:bg-grey-lighter">
-                            <td class="py-2 px-4 border-b border-grey-light">Carlos Sánchez</td>
-                            <td class="py-2 px-4 border-b border-grey-light">27/07/2023</td>
-                            <td class="py-2 px-4 border-b border-grey-light text-right">$1500</td>
-                        </tr>
+                        <?php foreach ($reservations as $reservation): ?>
+                            <tr>
+                                <td class="border px-4 py-2"><?php echo htmlspecialchars($reservation['activity_name']); ?></td>
+                                <td class="border px-4 py-2"><?php echo htmlspecialchars($reservation['created_at']); ?></td>
+                                <td class="border px-4 py-2"><?php echo htmlspecialchars($reservation['user_name']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>
