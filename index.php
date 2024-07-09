@@ -20,7 +20,7 @@
                 </div>
                 <div class="flex items-center justify-end w-full">
                     <div>
-                        <a href="views/reservations.php"><div class="relative py-2">
+                        <a href="views/cart.php"><div class="relative py-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                      stroke="currentColor" class="file: mt-4 h-6 w-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -46,16 +46,16 @@
             </div>
             <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-4">
                 <div class="flex flex-col sm:flex-row">
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="../index.php">Home</a>
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="activities.php">Activities</a>
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="reservations.php">Reservations</a>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="index.php">Home</a>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/activities.php">Activities</a>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/reservations.php">Reservations</a>
                     <?php if (isset($_SESSION['user_id'])): ?>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="logout.php">Logout</a>
+                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/logout.php">Logout</a>
                     <?php else: ?>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="login.php">Login</a>
+                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/login.php">Login</a>
                     <?php endif; ?>
                     <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
-                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="Admin/dashboard.php">Dashboard</a>
+                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/Admin/dashboard.php">Dashboard</a>
                     <?php endif; ?>
                 </div>
             </nav>

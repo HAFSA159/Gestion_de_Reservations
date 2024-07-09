@@ -26,6 +26,7 @@ class Activity
 
     public function getActivityById($id)
     {
+        var_dump($id);
         $sql = "SELECT * FROM activities WHERE id = :id";
         $stmt = $this->db->prepare($sql);
         $stmt->execute([':id' => $id]);

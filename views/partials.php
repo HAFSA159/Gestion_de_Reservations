@@ -13,3 +13,6 @@
 </head>
 <body>
 
+<script src="../scripts/storageFunctions.js"></script>
+
+
