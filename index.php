@@ -29,8 +29,6 @@
                             </div>
                         </a>
                     </div>
-
-
                     <div class="flex sm:hidden">
                         <form action="" method="POST">
                             <input type="hidden" name="activity_id"
@@ -48,19 +46,23 @@
             </div>
             <nav :class="isOpen ? '' : 'hidden'" class="sm:flex sm:justify-center sm:items-center mt-4">
                 <div class="flex flex-col sm:flex-row">
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="index.php">Home</a>
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/activities.php">Activities</a>
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/reservations.php">Reservations</a>
-                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/logout.php">logout</a>
-                    <?php
-                    if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin') {
-                        echo '<a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="views/Admin/dashboard.php">Dashboard</a>';
-                    }
-                    ?>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="../index.php">Home</a>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="activities.php">Activities</a>
+                    <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="reservations.php">Reservations</a>
+                    <?php if (isset($_SESSION['user_id'])): ?>
+                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="logout.php">Logout</a>
+                    <?php else: ?>
+                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="login.php">Login</a>
+                    <?php endif; ?>
+                    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'admin'): ?>
+                        <a class="mt-3 text-gray-600 hover:underline sm:mx-3 sm:mt-0" href="Admin/dashboard.php">Dashboard</a>
+                    <?php endif; ?>
                 </div>
             </nav>
         </div>
-    </header>
+</div>
+</div>
+</header>
     <main class="my-8">
         <div class="container mx-auto px-6">
             <div class="h-64 rounded-md overflow-hidden bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/390051/surfer-wave-sunset-the-indian-ocean-390051.jpeg?auto=compress&cs=tinysrgb&w=1260&')">
@@ -68,10 +70,12 @@
                     <div class="px-10 max-w-xl">
                         <h2 class="text-2xl text-white font-semibold">Sport Activities</h2>
                         <p class="mt-2 text-gray-400">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Tempore facere provident molestias ipsam sint voluptatum pariatur.</p>
-                        <button class="flex items-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
+                        <a href="views/activities.php">
+                            <button class="flex items-center mt-4 px-3 py-2 bg-blue-600 text-white text-sm uppercase font-medium rounded hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
                             <span>Reserve Yours Now</span>
                             <svg class="h-5 w-5 mx-2" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor"><path d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
-                        </button>
+                            </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -186,8 +190,8 @@
             <div class="flex flex-wrap items-center md:justify-between justify-center">
                 <div class="w-full md:w-4/12 px-4 mx-auto text-center">
                     <div class="text-sm text-blueGray-500 font-semibold py-1">
-                        Copyright © <span id="get-current-year">2024</span><a href="#" class="text-blueGray-500 hover:text-gray-800" target="_blank"> Notus JS by
-                            <a href="#" class="text-blueGray-500 hover:text-blueGray-800">Creative Tim</a>.
+                        Copyright © <span id="get-current-year">2024</span><a href="#" class="text-blueGray-500 hover:text-gray-800" target="_blank"> Hafsa Elmoatassim Billah
+                            <a href="#" class="text-blueGray-500 hover:text-blueGray-800">IT TITAN</a>.
                     </div>
                 </div>
             </div>
